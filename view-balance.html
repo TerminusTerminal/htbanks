@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Balance</title>
+</head>
+<body>
+  <h1>Check Account Balance</h1>
+  <form id="balanceForm">
+    <input type="text" id="accountNumber" placeholder="Account Number" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Check Balance</button>
+  </form>
+  <p id="balanceResult"></p>
+
+  <script>
+    document.getElementById('balanceForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const accountNumber = document.getElementById('accountNumber').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('http://localhost/Untitled-1.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'view_balance',
+            accountNumber,
+            password
+          })
+        });
+
+        const result = await response.json();
+        document.getElementById('balanceResult').textContent = result.balance 
+          ? `Balance: $${result.balance}` 
+          : `Error: ${result.error}`;
+      } catch (error) {
+        document.getElementById('balanceResult').textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>

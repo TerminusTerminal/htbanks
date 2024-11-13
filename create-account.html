@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  <title>Create Bank Account</title>
+</head>
+<body>
+    <div class="topbar">
+        <div class="logo"><h1>IBS</h1></div>
+        <div class="menu">
+            <a href="index.html">Home</a>
+            <div class="dropdown1">
+                <button onclick="myFunction1()" class="dropbtn1">About</button>
+                    <div id="myDropdown1" class="dropdown-content1">
+                        <a href="about.html">About</a>
+                        <a href="">Goals</a>
+                        <a href="">ss</a>
+                        <a href="">ss</a>
+                    </div>
+            </div>
+            <div class="dropdown2">
+                <button onclick="myFunction2()" class="dropbtn2">Services</button>
+                    <div id="myDropdown2" class="dropdown-content2">
+                        <a href="view-balance.html">View Balance</a>
+                        <a href="deposit.html">Deposit</a>
+                        <a href="javascript:void(0)">Create Account</a>
+                    </div>
+            </div>
+            <a href="#contact">Contacts</a>
+        </div>
+    </div>
+    <div class="content">
+
+        <div id="inner-content">
+            <div class="content-information">
+              <p>Caesar Sancta Urbis Roma Augustus</p>
+            <h1>Create Account</h1>
+        </div>
+        <form id="accountForm">
+            <input type="text" id="holderName" placeholder="Account Holder Name" required><br>
+            <input type="text" id="bankName" placeholder="Bank Name" required><br>
+            <input type="text" id="accountNumber" placeholder="Account Number" required><br>
+            <input type="password" id="password" placeholder="Password" required><br>
+            <button type="submit" id="sbtn">Create Account</button>
+        </form>
+        </div>
+    </div>
+
+
+  <script>
+        function myFunction1() {
+          document.getElementById("myDropdown1").classList.toggle("show1");
+        }
+        
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn1')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content1");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown1 = dropdowns[i];
+              if (openDropdown1.classList.contains('show1')) {
+                openDropdow1n.classList.remove('show1');
+              }
+            }
+          }
+        }
+
+        function myFunction2() {
+          document.getElementById("myDropdown2").classList.toggle("show2");
+        }
+        
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn2')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content2");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown2 = dropdowns[i];
+              if (openDropdown2.classList.contains('show2')) {
+                openDropdown2.classList.remove('show2');
+              }
+            }
+          }
+        }
+    document.getElementById('accountForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const holderName = document.getElementById('holderName').value;
+      const bankName = document.getElementById('bankName').value;
+      const accountNumber = document.getElementById('accountNumber').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('http://localhost/Untitled-1.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'create_account',
+            holderName,
+            bankName,
+            accountNumber,
+            password
+          })
+        });
+
+        const result = await response.json();
+        alert(result.message || result.error);
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>

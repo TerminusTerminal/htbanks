@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deposit to Account</title>
+</head>
+<body>
+  <h1>Deposit Money</h1>
+  <form id="depositForm">
+    <input type="text" id="accountNumber" placeholder="Account Number" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <input type="number" id="amount" placeholder="Amount" required><br>
+    <button type="submit">Deposit</button>
+  </form>
+
+  <script>
+    document.getElementById('depositForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!confirm('Are you sure you want to deposit this amount?')) return;
+
+      const accountNumber = document.getElementById('accountNumber').value;
+      const amount = document.getElementById('amount').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('http://localhost/Untitled-1.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'deposit',
+            accountNumber,
+            password,
+            amount
+          })
+        });
+
+        const result = await response.json();
+        alert(result.message || result.error);
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
